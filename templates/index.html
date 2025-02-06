@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>penguin journal</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+
+<body>
+    {% for entry in entries %}
+    <div class="entry" data-content="{{ entry.content }}" data-title="{{entry.title}}" data-date="{{entry.date}}">
+        <h1>{{ entry.title }}</h1>
+        <p class="date">{{ entry.date }}</p>
+        <div class="markdown-rendered"></div>  </div>
+    {% endfor %}
+
+    <script src="https://cdn.jsdelivr.net/npm/marked@11/marked.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const entries = document.querySelectorAll('.entry');
+
+            entries.forEach(entry => {
+                const markdownText = entry.dataset.content;
+                const html = marked.parse(markdownText);
+                const renderedDiv = entry.querySelector('.markdown-rendered'); // Select the correct div
+                renderedDiv.innerHTML = html;
+            });
+        });
+    </script>
+</body>
+
+</html>
